@@ -11,7 +11,9 @@ export type Delegate = {
     address: string;
     name: string;
     imageUrl: string;
+    ens: string;
     title: string;
+    domainTags: string[];
     description?: string;
     isDelegating?: boolean;
     ownVotingPower?: number;

@@ -19,7 +19,9 @@ export type Criterion = {
 export type Proposal = {
     id: string;
     title: string,
-    criteria: Criterion[]
+    criteria: Criterion[],
+    startTime: number,
+    endTime: number
 };
 
 
@@ -37,14 +39,18 @@ export const PROPOSALS: Proposal[] = [
                 weight: 13
             }
             
-        ]
+        ],
+        startTime: 1640058965,
+        endTime: 1690059046
     },
     {
         id: '2',
         title: 'Proposal 2',
         criteria: [
 
-        ]
+        ],
+        startTime: 1640058965,
+        endTime: 1690059046
     }
 ]
 

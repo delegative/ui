@@ -18,31 +18,27 @@ import { SismoContext, SismoState, SismoStatus } from "./components/SismoProvide
 import { PROPOSALS } from "./proposal";
 import Link from "next/link";
 import { asVotingPower } from "./voting-power";
+import { GoveranceContext } from "./components/GoveranceProvider";
 
 export default function Home() {
-  // const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
-  //   useState<SismoConnectVerifiedResult>();
-  // const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
-
-  const proposal = PROPOSALS[0];
-
 
   const [error, setError] = useState<string>("");
 
-  const { sismoState } = useContext(SismoContext)
+  const { sismoState } = useContext(SismoContext);
+  const { proposal } = useContext(GoveranceContext);
 
   const [isShowResponse, setIsShowResponse] = useState<boolean>(false);
 
   useEffect(() => {
     console.log('updated sismo');
-    if (!sismoState.response) {
+    if (!sismoState.response || !proposal) {
       return;
     }
 
     const votingPower = asVotingPower(proposal, sismoState.response);
 
     console.log('votingPower', votingPower);
-  }, [sismoState?.status])
+  }, [sismoState?.status, proposal?.id])
 
   return (
 
@@ -53,6 +49,9 @@ export default function Home() {
           <section>
             <h3>🗳️Proposal: {proposal?.title}</h3>
             <h4>🛈 You can either vote with privacy 🤫, or delegate to domain expert  </h4>
+
+            <h4>Start Period:  {proposal?.starTime} </h4>
+            <h4>End Period:  {proposal?.endTime}  </h4>
           </section>
 
 

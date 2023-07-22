@@ -1,8 +1,13 @@
 import * as _ from 'lodash';
 import { Delegate } from "../delegates/page";
 import Link from 'next/link';
+import { BY_DOMAIN_TAG, withDomainImageUrl } from '../assets';
+import Image from "next/image";
+import { asReadibleHex } from '../util';
 
 export const DelegateCard = ({ delegate, onDelegateClick }: { delegate: Delegate, onDelegateClick: (address: string) => void }) => {
+
+    const { name, title, description, ens, address, isDelegating, domainTags = [] } = delegate;
 
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white text-black">
@@ -12,8 +17,8 @@ export const DelegateCard = ({ delegate, onDelegateClick }: { delegate: Delegate
                     src={delegate?.imageUrl}
                     className="mx-auto mb-4 w-24 rounded-lg"
                     alt="Avatar" />
-                <h5 className="mb-2 text-xl font-medium leading-tight">{delegate?.name} </h5>
-                {delegate.address}
+                <h5 className="mb-2 text-xl font-medium leading-tight">{name} </h5>
+                {asReadibleHex(address)}
                 <div>
                     {
                         delegate?.isDelegating &&
@@ -25,17 +30,35 @@ export const DelegateCard = ({ delegate, onDelegateClick }: { delegate: Delegate
                     }
                 </div>
 
-                <p className="text-neutral-500 dark:text-neutral-400">{delegate?.title}</p>
+                <p className="text-neutral-500 dark:text-neutral-400">{title}</p>
             </div>
             <div className="px-6 ">
                 <p className="text-gray-700 text-xs">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+                    {description}
                 </p>
             </div>
             <div className="px-4 pt-2">
-                <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">#software</span>
-                <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">#legal</span>
-                <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">#finance</span>
+                {
+                    domainTags.map((domainTag, index) => {
+                        const domainImageUrl = withDomainImageUrl(BY_DOMAIN_TAG[domainTag]);
+                        return (
+                            <>
+                                <span className="inline-block">
+                                    <Image
+
+                                        src={domainImageUrl}
+                                        width={15}
+                                        height={8}
+                                        className="w-full dark:hidden w-10 h-4"
+                                        alt={domainTag}
+                                    />
+                                </span>
+                                <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">#{domainTag}</span>
+                            </>
+                        )
+                    })
+
+                }
             </div>
 
 
@@ -48,7 +71,7 @@ export const DelegateCard = ({ delegate, onDelegateClick }: { delegate: Delegate
             </div>
 
 
-        </div>
+        </div >
     )
 
 }

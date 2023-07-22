@@ -45,6 +45,6 @@ export const DELEGATES_FIXTURE = DELEGATES_FIXTURE_RAW.map((delegate, index)=>{
 
     return {
         ...delegate,
-        imageUrl: `https://tecdn.b-cdn.net/img/new/avatars/${_.random(0, 8)}.webp`
+        imageUrl: `https://tecdn.b-cdn.net/img/new/avatars/${_.random( 1,9)}.webp`
     }
 })

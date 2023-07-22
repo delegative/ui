@@ -16,6 +16,7 @@ import {
 } from "./sismo-connect-config";
 import { SismoContext, SismoState, SismoStatus } from "./components/SismoProvider";
 import { PROPOSALS } from "./proposal";
+import Link from "next/link";
 
 export default function Home() {
   const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
@@ -97,9 +98,11 @@ export default function Home() {
           <section>
             <div>Step2: If you want to delegate to domain expert</div>
 
-            <button className="bg-french-red">
-              Delegate
-            </button>
+            <Link href="/delegates">
+              <button className="bg-french-red">
+                Delegate
+              </button>
+            </Link>
           </section>
 
 

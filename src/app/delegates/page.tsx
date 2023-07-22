@@ -35,7 +35,8 @@ export default function Page() {
     return (
         <>
             <section>
-                <h2>Step 1. Check current delegation flows</h2>
+                <h3>Delegate if you don't know how to vote on this!</h3>
+                <h4>Step 1. Check current delegation flows</h4>
                 <div className="grid grid-cols-4 gap-4">
                     <DelegateFlowWidget />
                 </div>
@@ -72,7 +73,7 @@ export default function Page() {
                         id="exampleFormControlInput1"
                         value={delegateTarget} />
                 </div>
-                <button onClick={() => onAttestDelegationClick(delegateTarget)} className="bg-french-red">Attest Delegation</button>
+                <button onClick={() => delegateTarget && onAttestDelegationClick(delegateTarget)} className="bg-french-red">Attest Delegation</button>
 
             </section>
 

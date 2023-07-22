@@ -86,7 +86,6 @@ export default function Page() {
     return (
         <div >
             Propose
-            <div><CriteriaSelectorNode /></div>
 
             <section>
                 <h2>Configure your proposal</h2>

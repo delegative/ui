@@ -253,6 +253,17 @@ export default function Home() {
             </tr>
           </tbody>
         </table>
+
+        <section>
+
+          <div>
+            Step3: Vote for the proposal privately 🤫
+          </div>
+          <button className="bg-blue">✔️Yes</button>
+          <button className="bg-red">❌No</button>
+
+        </section>
+
       </main >
     </>
   );

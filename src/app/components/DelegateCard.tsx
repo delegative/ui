@@ -12,7 +12,8 @@ export const DelegateCard = ({ delegate }: { delegate: Delegate }) => {
                     src={`https://tecdn.b-cdn.net/img/new/avatars/${_.random(0, 9)}.webp`}
                     className="mx-auto mb-4 w-24 rounded-lg"
                     alt="Avatar" />
-                <h5 className="mb-2 text-xl font-medium leading-tight">{delegate?.name}</h5>
+                <h5 className="mb-2 text-xl font-medium leading-tight">{delegate?.name} </h5>
+                0x{delegate.address}
                 <p className="text-neutral-500 dark:text-neutral-400">{delegate?.title}</p>
             </div>
             <div className="px-6 ">

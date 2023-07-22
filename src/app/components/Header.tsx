@@ -9,14 +9,8 @@ import { SismoConnectWidget } from "./SismoConnectWidget";
 const menuData = [
   {
     id: 1,
-    title: "Home",
+    title: "Current proposal",
     path: "/",
-    newTab: false,
-  },
-  {
-    id: 2,
-    title: "Vote",
-    path: "/about",
     newTab: false,
   },
   {

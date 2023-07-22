@@ -16,6 +16,7 @@ import {
     ClaimType,
 } from "../sismo-connect-config";
 import { SismoContext, SismoStatus } from "./SismoProvider";
+import { VotingPowerWidget } from "./VotingPowerWidget";
 
 export const findAuthUserId = (proofs: SismoConnectProof[]) => {
     let userId = '';
@@ -39,11 +40,23 @@ export const SismoConnectWidget = () => {
 
     if (sismoState.status === SismoStatus.Verifying) {
 
-        const userId = findAuthUserId(sismoState.response?.proofs || []) || '';
+        // const userId = findAuthUserId(sismoState.response?.proofs || []) || '';
 
-        return <button>
-            {userId}
-        </button>
+        const { userId } = sismoState;
+
+        return (
+            <div className="grid grid-cols-4 gap-4">
+                <div className="align-middle">
+                    <VotingPowerWidget />
+                </div>
+                <div>
+                    <button className="bg-french-blue text-xs">
+                        {userId}
+                    </button>
+                </div>
+            </div >
+        )
+
     }
 
     return (

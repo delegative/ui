@@ -8,8 +8,8 @@ import Header from "./components/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Sismo Connect Offchain Starter",
-  description: "A starter Next.js repository for Sismo Connect offchain apps",
+  title: "Délégative",
+  description: "Private voting tool for liquid democracy",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

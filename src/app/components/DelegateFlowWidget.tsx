@@ -4,22 +4,30 @@ import { Delegate } from '../delegates/page';
 import { DELEGATES_FIXTURE } from '../delegates.fixture';
 
 const delegations = [
-    { source: '1', target: '2' },
-    { source: '2', target: '3' },
-    { source: '4', target: '5' }
+    { source: '0x1', target: '0x2' },
+    { source: '0x2', target: '0x3' },
+    { source: '0x4', target: '0x5' }
 ]
 
 // alternatively use treemap to visualize https://github.com/d3/d3-hierarchy#treemap
 
-export const createLabel = (address: string, name: string) => {
+export const createLabel = (address: string, imageUrl: string, name: string) => {
 
-    return <div>
-        <div>
-            {name}
+    return <div className="grid grid-cols-6 gap-1">
+        <div className="col-span-2">
+            <img
+                src={imageUrl}
+                className="w-8 rounded-full"
+                alt="Avatar" />
         </div>
-        <h4 className="text-gray-700">
-            0x{address}
-        </h4>
+        <div className="col-span-3">
+            <h4 className="pb-1">{name}</h4>
+            <span className="text-gray-700">
+                {address}
+            </span>
+        </div>
+
+
 
     </div>
 }
@@ -27,8 +35,8 @@ export const createLabel = (address: string, name: string) => {
 export const mapDelegateAsNode = (delegate: Delegate, index: number) => {
     return {
         id: delegate.address || 'null',
-        data: { label: createLabel(delegate.address, delegate.name) },
-        position: { x: 0 + index * 100, y: index * 100 },
+        data: { label: createLabel(delegate.address, delegate.imageUrl, delegate.name) },
+        position: { x: 0 + index * 100, y: index % 3 * 100 },
         // type: 'input',
     };
 }
@@ -66,7 +74,6 @@ console.log('nodes', nodes, delegations)
 export const DelegateFlowWidget = () => {
     return (
         <div className="h-5/6 min-h-screen w-screen">
-            flow
             <ReactFlow nodes={nodes} defaultEdges={edges} fitView connectionLineStyle={connectionLineStyle}>
                 <Background />
 

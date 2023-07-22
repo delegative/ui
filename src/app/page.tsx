@@ -15,17 +15,14 @@ import {
   ClaimType,
 } from "./sismo-connect-config";
 import { SismoContext, SismoState, SismoStatus } from "./components/SismoProvider";
-
-
-const proposalData = {
-  title: 'Shall we use semicolon for our js codebase?',
-}
+import { PROPOSALS } from "./proposal";
 
 export default function Home() {
   const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
     useState<SismoConnectVerifiedResult>();
   const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
 
+  const proposal = PROPOSALS[0];
   const [error, setError] = useState<string>("");
 
   const { sismoState } = useContext(SismoContext)
@@ -39,14 +36,28 @@ export default function Home() {
         <>
 
           <section>
-            <h3>Proposal 123: {proposalData?.title}</h3>
-            <h4>You can either vote with privacy 🤫, or delegate to domain expert  </h4>
+            <h3>🗳️Proposal: {proposal?.title}</h3>
+            <h4>🛈 You can either vote with privacy 🤫, or delegate to domain expert  </h4>
           </section>
+
+
+          {/* results */}
+          Total Participations: 123 /  230 70%
+          For: 12
+          Against: 11
+
+
           <section>
 
             <div>
               Step1: Are you Eligible to vote?
               Connect Sismo and we will check privately 🤫
+            </div>
+
+            <div>
+              <h4>This proposal requires you to have these..</h4>
+
+
             </div>
             {
               sismoState?.status !== SismoStatus.Init && (
@@ -86,7 +97,7 @@ export default function Home() {
           <section>
             <div>Step2: If you want to delegate to domain expert</div>
 
-            <button>
+            <button className="bg-french-red">
               Delegate
             </button>
           </section>
@@ -95,186 +106,28 @@ export default function Home() {
 
         </>
 
-
-
-        {/* Table for Verified Auths */}
-        {sismoConnectVerifiedResult && (
-          <>
-            <h3>Verified Auths</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>AuthType</th>
-                  <th>Verified UserId</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sismoConnectVerifiedResult.auths.map((auth, index) => (
-                  <tr key={index}>
-                    <td>{AuthType[auth.authType]}</td>
-                    <td>{auth.userId}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-
         <br />
-
-        {/* Table for Verified Claims */}
-        {sismoConnectVerifiedResult && (
-          <>
-            <h3>Verified Claims</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>groupId</th>
-                  <th>ClaimType</th>
-                  <th>Verified Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sismoConnectVerifiedResult.claims.map((claim, index) => (
-                  <tr key={index}>
-                    <td>
-                      <a
-                        target="_blank"
-                        href={"https://factory.sismo.io/groups-explorer?search=" + claim.groupId}
-                      >
-                        {claim.groupId}
-                      </a>
-                    </td>
-                    <td>{ClaimType[claim.claimType!]}</td>
-                    <td>{claim.value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-
-        <h3>This proposal requires you to have these..</h3>
-
-        {/* Table of the Auths requests*/}
-        <h3>Auths requested</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>AuthType</th>
-              <th>Requested UserId</th>
-              <th>Optional?</th>
-              <th>ZK proof</th>
-            </tr>
-          </thead>
-          <tbody>
-            {AUTHS.map((auth, index) => (
-              <tr key={index}>
-                <td>{AuthType[auth.authType]}</td>
-                <td>{readibleHex(auth.userId || "No userId requested")}</td>
-                <td>{auth.isOptional ? "optional" : "required"}</td>
-                {sismoConnectResponse ? (
-                  <td>{readibleHex(getProofDataForAuth(sismoConnectResponse, auth.authType)!)}</td>
-                ) : (
-                  <td> ZK proof not generated yet </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <br />
-
-        {/* Table of the Claims requests*/}
-        <h3>Claims requested</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>GroupId</th>
-              <th>ClaimType</th>
-              <th>Requested Value</th>
-              <th>Can User Select Value?</th>
-              <th>Optional?</th>
-              <th>ZK proof</th>
-            </tr>
-          </thead>
-          <tbody>
-            {CLAIMS.map((claim, index) => (
-              <tr key={index}>
-                <td>
-                  <a
-                    target="_blank"
-                    href={"https://factory.sismo.io/groups-explorer?search=" + claim.groupId}
-                  >
-                    {claim.groupId}
-                  </a>
-                </td>
-                <td>{ClaimType[claim.claimType || 0]}</td>
-                <td>{claim.value ? claim.value : "1"}</td>
-                <td>{claim.isSelectableByUser ? "yes" : "no"}</td>
-                <td>{claim.isOptional ? "optional" : "required"}</td>
-                {sismoConnectResponse ? (
-                  <td>
-                    {readibleHex(
-                      getProofDataForClaim(
-                        sismoConnectResponse,
-                        claim.claimType || 0,
-                        claim.groupId!,
-                        claim.value || 1
-                      )!
-                    )}
-                  </td>
-                ) : (
-                  <td> ZK proof not generated yet </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Table of the Signature request and its result */}
-        <h3>Signature requested and verified</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Message Requested</th>
-              <th>Can User Modify message?</th>
-              <th>Verified Signed Message</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{SIGNATURE_REQUEST.message}</td>
-              <td>{SIGNATURE_REQUEST.isSelectableByUser ? "yes" : "no"}</td>
-              <td>
-                {sismoConnectVerifiedResult
-                  ? sismoConnectVerifiedResult.signedMessage
-                  : "ZK proof not verified yet"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
 
         <section>
 
           <div>
             Step3: Vote for the proposal privately 🤫
           </div>
-          <button className="bg-blue">✔️Yes</button>
-          <button className="bg-red">❌No</button>
+
+          <div className="grid grid-cols-2 gap-2">
+            <button className="bg-french-red">☑️ For</button>
+            <button className="bg-french-red">🙅‍♀️ Against</button>
+          </div>
 
         </section>
+
 
       </main >
     </>
   );
 }
 
-function readibleHex(userId: string, startLength = 6, endLength = 4, separator = "...") {
-  if (!userId.startsWith("0x")) {
-    return userId; // Return the original string if it doesn't start with "0x"
-  }
-  return userId.substring(0, startLength) + separator + userId.substring(userId.length - endLength);
-}
+
 
 function getProofDataForAuth(
   sismoConnectResponse: SismoConnectResponse,

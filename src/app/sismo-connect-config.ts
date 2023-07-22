@@ -38,7 +38,7 @@ export const AUTHS: AuthRequest[] = [
   // { authType: AuthType.VAULT },
   { authType: AuthType.EVM_ACCOUNT },
   { authType: AuthType.GITHUB, isOptional: true },
-  // { authType: AuthType.TWITTER, isOptional: true },
+  { authType: AuthType.TWITTER, isOptional: true },
   // { authType: AuthType.TELEGRAM, userId: "875608110", isOptional: true },
 ];
 
@@ -47,7 +47,7 @@ export const CLAIMS: ClaimRequest[] = [
   {
     // claim Uni Token Holders
     groupId: "0x2ca1efd034c5d55cffab84a848625ef6", 
-      },
+  },
   // {
   //   // claim on Baguette NFT holder Data Group membership:
   //   // value for each group member = number of NFT minted
@@ -60,6 +60,6 @@ export const CLAIMS: ClaimRequest[] = [
 
 // Request users to sign a message
 export const SIGNATURE_REQUEST: SignatureRequest = {
-  message: "I govern with delegative!",
+  message: "I agree to govern with délégative!",
   isSelectableByUser: true,
 };

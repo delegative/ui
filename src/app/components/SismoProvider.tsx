@@ -1,3 +1,4 @@
+import { AuthType, SismoConnectProof } from "@sismo-core/sismo-connect-react";
 import { SismoConnectResponse, SismoConnectVerifiedResult } from "@sismo-core/sismo-connect-server";
 import { createContext, useState } from "react";
 // import { SismoState } from "../page";
@@ -13,6 +14,7 @@ export enum SismoStatus {
 
 export type SismoState = {
     status: SismoStatus;
+    userId?: string;
     verifyResult?: SismoConnectVerifiedResult;
     response?: SismoConnectResponse;
 }
@@ -47,6 +49,21 @@ export const verify = async (response: SismoConnectResponse) => {
     }
 }
 
+export const findAuthUserId = (proofs: SismoConnectProof[]) => {
+    let userId = '';
+    proofs.forEach((proof) => {
+        (proof.auths || []).forEach((auth) => {
+            if (auth.authType === AuthType.EVM_ACCOUNT) {
+                userId = auth.userId!;
+                return;
+            }
+        });
+    });
+
+    return userId;
+
+}
+
 export const SismoWrapper = ({ children }: { children: React.ReactNode }) => {
     // const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
     //     useState<SismoConnectVerifiedResult>();
@@ -59,9 +76,12 @@ export const SismoWrapper = ({ children }: { children: React.ReactNode }) => {
         console.log('response', response);
         setSismoConnectResponse(response);
 
+        const userId = findAuthUserId(response?.proofs || []) || '';
+
         setSismoState({
             status: SismoStatus.Verifying,
-            response
+            response,
+            userId
         })
 
         const { status, verifyResult } = await verify(response);

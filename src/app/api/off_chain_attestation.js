@@ -67,7 +67,13 @@ async function uploadToIPFS(attestation){
   return ipfsHash;
 }
 
+async function getIPFSFile(address){
+  return await lighthouse.getUploads(address);
+}
+
 const offchainAttestation = await performOffChainAttestation(RECIPIENT, refUID);
 
 const ipfsHash = await uploadToIPFS(offchainAttestation);
 
+const uploads = await getIPFSFile(process.env.ADDRESS);
+console.log(uploads);

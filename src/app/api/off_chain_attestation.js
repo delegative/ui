@@ -8,6 +8,9 @@ import lighthouse from '@lighthouse-web3/sdk'
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 const privateKey = process.env.PRIVATE_KEY;
 const apiKey = process.env.IPFS_API_KEY;
+const schemaID = process.env.SCHEMA_ID;
+const RECIPIENT = "0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165";
+const refUID = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 // Initialize Offchain class with EAS configuration
 const EAS_CONFIG = {
@@ -31,33 +34,40 @@ const provider = ethers.providers.getDefaultProvider(
   );
   
 
-const signer = new ethers.Wallet(privateKey, provider);
+ async function performOffChainAttestation(recipient, refUID){
+    const signer = new ethers.Wallet(privateKey, provider);
+    console.log(recipient, refUID);
+    const offchainAttestation = await offchain.signOffchainAttestation({
+      recipient: recipient,
+      // Unix timestamp of when attestation expires. (0 for no expiration)
+      expirationTime: 0,
+      // Unix timestamp of current time
+      time: 1671219636,
+      revocable: true,
+      nonce: 0, // TODO increment the nonce
+      schema: schemaID,
+      refUID: refUID,
+      version: 1,
+      data: encodedData,
+    }, signer);
+    
+    console.log("New off-chain attestation: ", offchainAttestation);
+    return offchainAttestation;
+}
 
 
+async function uploadToIPFS(attestation){
+  var buf = Buffer.from(JSON.stringify(attestation));
+  const uploadResponse = await lighthouse.uploadText(buf, apiKey); // path, apiKey
+  
+  console.log(uploadResponse);
+  
+  const ipfsHash = uploadResponse.data.Hash;
+  console.log("IPFS storage hash: ", ipfsHash);
+  return ipfsHash;
+}
 
-const offchainAttestation = await offchain.signOffchainAttestation({
-  recipient: '0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165',
-  // Unix timestamp of when attestation expires. (0 for no expiration)
-  expirationTime: 0,
-  // Unix timestamp of current time
-  time: 1671219636,
-  revocable: true,
-  nonce: 0,
-  schema: "0xc15554c5e83e68eed9e6ff417acb164302258f7f9cccd4bbab03ba99bd242973",
-  refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
-  version: 1,
-  data: encodedData,
-}, signer);
+const offchainAttestation = await performOffChainAttestation(RECIPIENT, refUID);
 
+const ipfsHash = await uploadToIPFS(offchainAttestation);
 
-
-
-console.log("New off-chain attestation: ", offchainAttestation);
-
-var buf = Buffer.from(JSON.stringify(offchainAttestation));
-
-console.log(buf);
-
-const uploadResponse = await lighthouse.uploadText(buf, apiKey); // path, apiKey
-
-console.log(uploadResponse);

@@ -16,6 +16,7 @@ const apiKey = process.env.IPFS_API_KEY;
 const schemaID = process.env.SCHEMA_ID;
 const RECIPIENT = "0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165";
 const refUID = "0x0000000000000000000000000000000000000000000000000000000000000000";
+const ADDRESS = "0x7d63b26F6a4308832AbFd0434753Fdc8316177D7";
 const baseURL = `https://sepolia.easscan.org`;
 
 
@@ -45,17 +46,17 @@ const provider = ethers.providers.getDefaultProvider(
 
  async function performOffChainAttestation(recipient, refUID){
     const signer = new ethers.Wallet(privateKey, provider);
-    console.log(recipient, refUID);
     const offchainAttestation = await offchain.signOffchainAttestation({
       recipient: recipient,
       // Unix timestamp of when attestation expires. (0 for no expiration)
       expirationTime: 0,
       // Unix timestamp of current time
-      time: 1671219636,
+      time: Math.floor(new Date().getTime()/1000),
       revocable: true,
-      nonce: 0, // TODO increment the nonce
+      nonce: 1, // TODO increment the nonce
       schema: schemaID,
       refUID: refUID,
+      expirationTime: 0,
       version: 1,
       data: encodedData,
     }, signer);
@@ -97,7 +98,7 @@ async function getAttestationsForAddress(address) {
     `${baseURL}/graphql`,
     {
       query:
-        "query Attestations($where: AttestationWhereInput, $orderBy: [AttestationOrderByWithRelationInput!]) {\n  attestations(where: $where, orderBy: $orderBy) {\n    attester\n    revocationTime\n    expirationTime\n    time\n    recipient\n    id\n    data\n  }\n}",
+        "query Attestations($where: AttestationWhereInput, $orderBy: [AttestationOrderByWithRelationInput!]) {\n  attestations(where: $where, orderBy: $orderBy) {\n    attester\n    revocationTime\n    expirationTime\n    time\n    recipient\n    id\n    data\n   decodedDataJson\n revoked\n refUID\n }\n}",
       variables: {
         where: {
           schemaId: {
@@ -132,16 +133,40 @@ async function getAttestationsForAddress(address) {
   return response.data.data.attestations;
 }
 
-const signedOffchainAttestation = await performOffChainAttestation(RECIPIENT, refUID);
+//const signedOffchainAttestation = await performOffChainAttestation(RECIPIENT, refUID);
 
-const response = await submitSignedAttestation(signedOffchainAttestation);
+const pkg = {
+  signer: "0x7d63b26F6a4308832AbFd0434753Fdc8316177D7", 
+  sig: signedOffchainAttestation
+}
+
+//const response = await submitSignedAttestation(pkg);
+
+
 
 //console.log(response);
 
-const attstns = await getAttestationsForAddress("0x7d63b26F6a4308832AbFd0434753Fdc8316177D7");
+const attstns = await getAttestationsForAddress(ADDRESS);
+
+
 
 // console.log(attstns);
 console.log("Number of attestations:", Object.keys(attstns).length);
+
+let allInfo = [];
+
+for (const key in attstns) { 
+  const act = {
+  from: attstns[key].attester,
+  to: attstns[key].recipient,
+  parent_attestation: attstns[key].refUID === "0x0000000000000000000000000000000000000000000000000000000000000000" ? "No parent attestation" : attstns[key].refUI,
+  revoked: attstns[key].revoked,
+  isFurtherDelegable: JSON.parse(attstns[key].decodedDataJson)[0].value.value,
+  }
+  allInfo.push(act);
+}
+
+console.log(allInfo);
 
 // // IPFS things
 // const ipfsHash = await uploadToIPFS(offchainAttestation);

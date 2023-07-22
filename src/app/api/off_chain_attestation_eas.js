@@ -133,7 +133,7 @@ async function getAttestationsForAddress(address) {
   return response.data.data.attestations;
 }
 
-//const signedOffchainAttestation = await performOffChainAttestation(RECIPIENT, refUID);
+const signedOffchainAttestation = await performOffChainAttestation(RECIPIENT, refUID);
 
 const pkg = {
   signer: "0x7d63b26F6a4308832AbFd0434753Fdc8316177D7", 
@@ -146,27 +146,52 @@ const pkg = {
 
 //console.log(response);
 
-const attstns = await getAttestationsForAddress(ADDRESS);
+const attestations = await getAttestationsForAddress(ADDRESS);
 
-
-
-// console.log(attstns);
-console.log("Number of attestations:", Object.keys(attstns).length);
 
 let allInfo = [];
 
-for (const key in attstns) { 
-  const act = {
-  from: attstns[key].attester,
-  to: attstns[key].recipient,
-  parent_attestation: attstns[key].refUID === "0x0000000000000000000000000000000000000000000000000000000000000000" ? "No parent attestation" : attstns[key].refUI,
-  revoked: attstns[key].revoked,
-  isFurtherDelegable: JSON.parse(attstns[key].decodedDataJson)[0].value.value,
+function collectAllInformation(attestations){
+  // console.log(attstns);
+  console.log("Number of attestations:", Object.keys(attestations).length);
+  let act = {};
+
+  for (const key in attestations) { 
+    act = {
+    from: attestations[key].attester,
+    to: attestations[key].recipient,
+    parent_attestation: attestations[key].refUID === "0x0000000000000000000000000000000000000000000000000000000000000000" ? "No parent attestation" : attestations[key].refUI,
+    revoked: attestations[key].revoked,
+    isFurtherDelegable: JSON.parse(attestations[key].decodedDataJson)[0].value.value,
+    }
+    allInfo.push(act);
   }
-  allInfo.push(act);
+  return act;
 }
 
-console.log(allInfo);
+
+//allInfo.push(collectAllInformation(attestations));
+//console.log(allInfo);
+
+function buildAdjList(attestations, address){
+  // console.log(attstns);
+  console.log("Number of attestations:", Object.keys(attestations).length);
+  let connections = [address];
+  let lastElement = "";
+  for (const key in attestations) { 
+    connections.push(attestations[key].recipient);
+    lastElement = attestations[key].recipient;
+  }
+  console.log(lastElement);
+  const tmp = connections;
+  //tmp = Array.from(new Set(connections));
+  // tmp.pop();
+  return {[lastElement] : tmp};
+}
+
+let adjList = [];
+adjList.push(buildAdjList(attestations, ADDRESS));
+console.log(adjList);
 
 // // IPFS things
 // const ipfsHash = await uploadToIPFS(offchainAttestation);

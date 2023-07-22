@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   SismoConnectButton,
   SismoConnectResponse,
@@ -17,21 +17,35 @@ import {
 import { SismoContext, SismoState, SismoStatus } from "./components/SismoProvider";
 import { PROPOSALS } from "./proposal";
 import Link from "next/link";
+import { asVotingPower } from "./voting-power";
 
 export default function Home() {
-  const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
-    useState<SismoConnectVerifiedResult>();
-  const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
+  // const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
+  //   useState<SismoConnectVerifiedResult>();
+  // const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
 
   const proposal = PROPOSALS[0];
+
+
   const [error, setError] = useState<string>("");
 
   const { sismoState } = useContext(SismoContext)
 
   const [isShowResponse, setIsShowResponse] = useState<boolean>(false);
 
+  useEffect(() => {
+    console.log('updated sismo');
+    if (!sismoState.response) {
+      return;
+    }
+
+    const votingPower = asVotingPower(proposal, sismoState.response);
+
+    console.log('votingPower', votingPower);
+  }, [sismoState?.status])
 
   return (
+
     <>
       <main className="main">
         <>

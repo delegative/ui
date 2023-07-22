@@ -17,6 +17,8 @@ import {
 } from "../sismo-connect-config";
 import { SismoContext, SismoStatus } from "./SismoProvider";
 import { VotingPowerWidget } from "./VotingPowerWidget";
+import { GoveranceContext } from "./GoveranceProvider";
+import { asReadibleHex } from "../util";
 
 export const findAuthUserId = (proofs: SismoConnectProof[]) => {
     let userId = '';
@@ -38,6 +40,8 @@ export const SismoConnectWidget = () => {
     const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
         useState<SismoConnectVerifiedResult>();
 
+    const { votingPowerEligible, votingPowerAggregated } = useContext(GoveranceContext);
+
     if (sismoState.status === SismoStatus.Verifying) {
 
         // const userId = findAuthUserId(sismoState.response?.proofs || []) || '';
@@ -45,15 +49,15 @@ export const SismoConnectWidget = () => {
         const { userId } = sismoState;
 
         return (
-            <div className="grid grid-cols-4 gap-4">
-                <div className="align-middle">
-                    <VotingPowerWidget />
+            <div className="grid">
+                <div className="align-middle col-span-1">
+                    <VotingPowerWidget
+                        votingPowerEligible={votingPowerEligible}
+                        votingPowerAggregated={votingPowerAggregated} />
                 </div>
-                <div>
-                    <button className="bg-french-blue text-xs">
-                        {userId}
-                    </button>
-                </div>
+                <button className="bg-french-blue text-xs  col-span-1 m-1">
+                    {asReadibleHex(userId)}
+                </button>
             </div >
         )
 

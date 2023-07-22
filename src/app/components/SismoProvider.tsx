@@ -76,6 +76,7 @@ export const SismoWrapper = ({ children }: { children: React.ReactNode }) => {
         console.log('response', response);
         setSismoConnectResponse(response);
 
+
         const userId = findAuthUserId(response?.proofs || []) || '';
 
         setSismoState({

@@ -37,7 +37,7 @@ export const AUTHS: AuthRequest[] = [
   // full docs: https://docs.sismo.io/sismo-docs/build-with-sismo-connect/technical-documentation/vault-and-proof-identifiers
   // { authType: AuthType.VAULT },
   { authType: AuthType.EVM_ACCOUNT },
-  { authType: AuthType.GITHUB, isOptional: true },
+  { authType: AuthType.GITHUB, isOptional: true, },
   { authType: AuthType.TWITTER, isOptional: true },
   // { authType: AuthType.TELEGRAM, userId: "875608110", isOptional: true },
 ];

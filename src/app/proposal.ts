@@ -6,27 +6,37 @@ import {
     ClaimRequest,
     SismoConnectConfig,
   } from "@sismo-core/sismo-connect-client";
-  
-export type Criteria = {
 
+// yes we will couple criteria with sismo for now
+export type Criterion = {
+    authType?: AuthType;
+    claimType?: ClaimType;
+    groupId?: string;
+    isOptional?: boolean;
+    weight?: number;
 }
 
 export type Proposal = {
     id: string;
     title: string,
-    criteria: Criteria[]
+    criteria: Criterion[]
 };
 
 
 export const PROPOSALS: Proposal[] = [
-
     {
         id: '1',
         title: 'Shall we use semicolon for our js codebase?',
         criteria: [
-            { authType: AuthType.EVM_ACCOUNT, weight: 0 },
-            { authType: AuthType.GITHUB, isOptional: true, weight: 10 },
-            { authType: AuthType.TWITTER, isOptional: true, weight: 10 }
+            { authType: AuthType.EVM_ACCOUNT, weight: 10 },
+            { authType: AuthType.GITHUB, isOptional: true, weight: 11 },
+            { authType: AuthType.TWITTER, isOptional: true , weight: 12},
+            {
+                "claimType":0,
+                groupId:"0x2ca1efd034c5d55cffab84a848625ef6",
+                weight: 13
+            }
+            
         ]
     },
     {

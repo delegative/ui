@@ -44,6 +44,7 @@
 .sismoConnectButton {
 	background: #ee303f !important;
   margin: 0rem auto;
+  border: none !important;
   padding: 0.5rem !important;
 }
 .sismoConnectButtonText {

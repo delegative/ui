@@ -92,8 +92,8 @@ const Header = () => {
                 <Image
                   src="/delegative_logo.png"
                   alt="logo"
-                  width={200}
-                  height={40}
+                  width={140}
+                  height={30}
                   className="w-full dark:hidden"
                 />
               </Link>

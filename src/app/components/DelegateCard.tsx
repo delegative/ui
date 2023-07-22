@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { BY_DOMAIN_TAG, withDomainImageUrl } from '../assets';
 import Image from "next/image";
 import { asReadibleHex } from '../util';
+import { PROPOSALS } from '../proposal';
 
-export const DelegateCard = ({ delegate, onDelegateClick }: { delegate: Delegate, onDelegateClick: (address: string) => void }) => {
+export const DelegateCard = ({ delegate, onDelegateClick, style = 'human' }: { delegate: Delegate, onDelegateClick: (address: string) => void, style: string }) => {
 
     const { name, title, description, ens, address, isDelegating, domainTags = [] } = delegate;
 
@@ -32,28 +33,32 @@ export const DelegateCard = ({ delegate, onDelegateClick }: { delegate: Delegate
 
                 <p className="text-neutral-500 dark:text-neutral-400">{title}</p>
             </div>
-            <div className="px-6 ">
+            <div className="px-6 m-0">
                 <p className="text-gray-700 text-xs">
                     {description}
                 </p>
             </div>
-            <div className="px-4 pt-2">
+            <div className="px-4 pt-2 m-0">
                 {
                     domainTags.map((domainTag, index) => {
                         const domainImageUrl = withDomainImageUrl(BY_DOMAIN_TAG[domainTag]);
+
                         return (
                             <>
-                                <span className="inline-block">
-                                    <Image
+                                {style === 'nouns' && (
+                                    <span className="inline-block">
+                                        <Image
+                                            src={domainImageUrl}
+                                            width={15}
+                                            height={8}
+                                            className="w-full dark:hidden w-10 h-4"
+                                            alt={domainTag}
+                                        />
+                                    </span>
+                                )}
 
-                                        src={domainImageUrl}
-                                        width={15}
-                                        height={8}
-                                        className="w-full dark:hidden w-10 h-4"
-                                        alt={domainTag}
-                                    />
-                                </span>
-                                <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">#{domainTag}</span>
+
+                                <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700">#{domainTag}</span>
                             </>
                         )
                     })

@@ -18,8 +18,9 @@ export type Criterion = {
 
 export type Proposal = {
     id: string;
-    title: string,
-    criteria: Criterion[],
+    title: string;
+    style: string;
+    criteria: Criterion[];
     startTime: number,
     endTime: number
 };
@@ -40,6 +41,7 @@ export const PROPOSALS: Proposal[] = [
             }
             
         ],
+        style: 'human',
         startTime: 1640058965,
         endTime: 1690059046
     },
@@ -49,6 +51,7 @@ export const PROPOSALS: Proposal[] = [
         criteria: [
 
         ],
+        style: 'nouns',
         startTime: 1640058965,
         endTime: 1690059046
     }

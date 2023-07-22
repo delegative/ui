@@ -38,8 +38,13 @@ export const HEAD_TAGS = [
     'bat'
 ]
 
-export const withHeadImageUrl = ()=>{
-    const key = _.first(_.shuffle(HEAD_TAGS));
+export const withHeadImageUrl = (style= 'human')=>{
+
+    if(style=== 'nouns'){
+        const key = _.first(_.shuffle(HEAD_TAGS));
     
-    return '/head-'+key+'.svg';
+        return '/head-'+key+'.svg';
+    }
+
+    return `https://tecdn.b-cdn.net/img/new/avatars/${_.random( 1,9)}.webp`
 }

@@ -54,6 +54,10 @@ const offchainAttestation = await offchain.signOffchainAttestation({
 
 console.log("New off-chain attestation: ", offchainAttestation);
 
-const uploadResponse = await lighthouse.upload(offchainAttestation, apiKey); // path, apiKey
+var buf = Buffer.from(JSON.stringify(offchainAttestation));
+
+console.log(buf);
+
+const uploadResponse = await lighthouse.uploadText(buf, apiKey); // path, apiKey
 
 console.log(uploadResponse);

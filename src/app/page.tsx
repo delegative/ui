@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   AuthType,
@@ -95,12 +95,33 @@ const VotingPowerSection = ({ proposal, sismoState }: { proposal: Proposal | nul
   )
 }
 
+export const VoteStatusWidget = ({ voteStatus, onVoteClick }: { voteStatus: number, onVoteClick: (voteStatus: number) => void }) => {
+
+  if (voteStatus === 1) {
+    return <div className="p-5 text-center">You voted ☑️FOR</div>
+
+  }
+  if (voteStatus === -1) {
+    return <div className="p-5 text-center">You voted 🙅‍♀️AGAINST</div>
+
+  }
+  return (
+    (
+      <div className="grid grid-cols-2 gap-2">
+        <button onClick={() => { onVoteClick(1) }} className="bg-french-red">☑️ For</button>
+        <button onClick={() => { onVoteClick(-1) }} className="bg-french-red">🙅‍♀️ Against</button>
+      </div>
+    )
+  )
+}
+
 export default function Home() {
 
   const [error, setError] = useState<string>("");
 
   const { sismoState } = useContext(SismoContext);
   const { proposal } = useContext(GoveranceContext);
+  const [voteStatus, setVoteStatus] = useState<number>(0);
 
   const [votingResults, setVotingResults] = useState({ for: 0, against: 0 });
   const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
@@ -111,6 +132,10 @@ export default function Home() {
       setVotingResults(res.data);
     })
   }, [])
+
+  const onVoteClick = (voteStatus: number) => {
+    setVoteStatus(voteStatus);
+  }
 
   return (
     <>
@@ -142,17 +167,31 @@ export default function Home() {
         <br />
 
         <section>
-
           <div>
             Step3: Vote for the proposal privately 🤫
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            <button className="bg-french-red">☑️ For</button>
-            <button className="bg-french-red">🙅‍♀️ Against</button>
-          </div>
+          <VoteStatusWidget voteStatus={voteStatus} onVoteClick={async (newVoteStatus) => {
+            setVoteStatus(newVoteStatus);
 
-        </section>
+            const response = await axios.post(
+              `/vote`,
+              {
+                userId: sismoState?.userId,
+                vote: voteStatus,
+                sismoResponse: sismoState?.response,
+              },
+              {
+                headers: {
+                  "content-type": "application/json",
+                },
+              }
+            );
+
+          }} />
+
+
+        </section >
 
         <section>
 
@@ -185,7 +224,7 @@ export default function Home() {
                   viewBox="0 0 512 512">
                   <path
                     fill="currentColor"
-                    d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"></path>
+                    d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path>
                 </svg>
                 Proposal-1 has been Passed!
               </p>

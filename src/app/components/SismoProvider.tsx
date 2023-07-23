@@ -31,7 +31,7 @@ export const SismoContext = createContext<{
 });
 
 export const verify = async (response: SismoConnectResponse) => {
-    const verifiedResult = await fetch("/api/verify", {
+    const verifiedResult = await fetch("/api/vote", {
         method: "POST",
         body: JSON.stringify(response),
     });

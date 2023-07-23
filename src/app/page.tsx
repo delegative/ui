@@ -175,7 +175,7 @@ export default function Home() {
             setVoteStatus(newVoteStatus);
 
             const response = await axios.post(
-              `/vote`,
+              `/api/vote`,
               {
                 userId: sismoState?.userId,
                 vote: voteStatus,
@@ -186,7 +186,9 @@ export default function Home() {
                   "content-type": "application/json",
                 },
               }
-            );
+            ).catch(err => {
+              console.log(err);
+            });
 
           }} />
 

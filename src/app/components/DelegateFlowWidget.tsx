@@ -70,10 +70,10 @@ export const DelegateFlowWidget = ({ delegates, delegations, votingWeightByAddre
         // temp hack
         const matched = DELEGATES_FIXTURE.find(({ address }) => address === source);
 
-        const votingPowerAggregated = votingWeightByAddress[source];
+        // const votingPowerAggregated = votingWeightByAddress[source];
 
 
-        return mapDelegationAsEdge(source, target, votingPowerAggregated);
+        return mapDelegationAsEdge(source, target, matched?.votingPowerEligible || 0);
 
     })
     return (

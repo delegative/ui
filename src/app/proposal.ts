@@ -28,6 +28,7 @@ export type Proposal = {
     startTime: number,
     endTime: number,
     delegateAddresses?: string[];
+    resultIpfsCid?: string;
 };
 
 
@@ -51,9 +52,11 @@ export const PROPOSALS: Proposal[] = [
             
         ],
         style: 'human',
-        startTime: 1640058965000,
+        startTime: 1689704965000,
         endTime: 1690059046000,
-        delegateAddresses:DELEGATES_FIXTURE.map(d=>d.address)
+        delegateAddresses:DELEGATES_FIXTURE.map(d=>d.address),
+        // mock up
+        resultIpfsCid: 'QmQS1L8X8TkNtCVKdGm7bTqVfnzbDqEURC9mocvsKaeWW4'
     },
     {
         id: '2',
@@ -71,8 +74,8 @@ export const PROPOSALS: Proposal[] = [
             
         ],
         style: 'nouns',
-        startTime: 1640058965000,
-        endTime: 1690059046000
+        startTime: 1689704965000,
+        endTime: 1690059046000,
     },
     {
         id: '3',

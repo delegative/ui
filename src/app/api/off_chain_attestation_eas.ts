@@ -166,10 +166,8 @@ export const flowWeights = (adjList:Record<string, string[]>, weightsByAddress: 
   });
 
 
-// pass by ref
-console.log('remove keys', pairsWithEmpty.map(([key, ])=>key));
 adjList = _.omit(adjList, pairsWithEmpty.map(([key, ])=>key));
-console.log('adjList', adjList, weightsByAddress);
+
 }
 
 
@@ -190,7 +188,6 @@ export const loadAttestationsAndBuildGraph = async (votingWeightByAddress: Recor
 
  const adjList =  buildAdjList(addresses, attestationsByAddress);
 
- console.log('adjList', adjList);
 
 
   const adjListInProcess = _.cloneDeep(adjList);

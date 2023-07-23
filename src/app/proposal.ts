@@ -55,8 +55,7 @@ export const PROPOSALS: Proposal[] = [
         startTime: 1689704965000,
         endTime: 1690059046000,
         delegateAddresses:DELEGATES_FIXTURE.map(d=>d.address),
-        // mock up
-        resultIpfsCid: 'QmQS1L8X8TkNtCVKdGm7bTqVfnzbDqEURC9mocvsKaeWW4'
+        resultIpfsCid: 'QmYdzyxSoBQZrhAnwqGmChvFp2YYgHxhniNJcBXgJWhLEa'
     },
     {
         id: '2',

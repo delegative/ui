@@ -1,11 +1,6 @@
 "use client";
-
 import { useContext, useEffect, useState } from "react";
-import {
-  SismoConnectButton,
-  SismoConnectResponse,
-  SismoConnectVerifiedResult,
-} from "@sismo-core/sismo-connect-react";
+
 import {
   CONFIG,
   AUTHS,
@@ -66,13 +61,11 @@ export default function Home() {
   const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss'
 
   return (
-
     <>
       <main className="main">
         <>
-
           <section>
-            <h3>🗳️Proposal: {proposal?.title}</h3>
+            <h3>🗳️Proposal-{proposal?.id}: {proposal?.title}</h3>
             <h4>🛈 You can either vote with privacy 🤫, or delegate to domain expert  </h4>
 
             <h4>Period: {format(proposal?.startTime!, DATE_FORMAT)} -  {format(proposal?.endTime!, DATE_FORMAT)}  </h4>
@@ -108,12 +101,6 @@ export default function Home() {
             </ul>
 
 
-            {/* 
-            <div>
-              <h4>This proposal requires you to have these..</h4>
-
-
-            </div> */}
             {
               sismoState?.status !== SismoStatus.Init && (
                 <div>
@@ -145,8 +132,6 @@ export default function Home() {
               )
             }
 
-
-
           </section>
 
           <section>
@@ -158,9 +143,6 @@ export default function Home() {
               </button>
             </Link>
           </section>
-
-
-
         </>
 
         <br />
@@ -185,39 +167,3 @@ export default function Home() {
 }
 
 
-
-function getProofDataForAuth(
-  sismoConnectResponse: SismoConnectResponse,
-  authType: AuthType
-): string | null {
-  for (const proof of sismoConnectResponse.proofs) {
-    if (proof.auths) {
-      for (const auth of proof.auths) {
-        if (auth.authType === authType) {
-          return proof.proofData;
-        }
-      }
-    }
-  }
-
-  return null; // returns null if no matching authType is found
-}
-
-function getProofDataForClaim(
-  sismoConnectResponse: SismoConnectResponse,
-  claimType: number,
-  groupId: string,
-  value: number
-): string | null {
-  for (const proof of sismoConnectResponse.proofs) {
-    if (proof.claims) {
-      for (const claim of proof.claims) {
-        if (claim.claimType === claimType && claim.groupId === groupId && claim.value === value) {
-          return proof.proofData;
-        }
-      }
-    }
-  }
-
-  return null; // returns null if no matching claimType, groupId and value are found
-}

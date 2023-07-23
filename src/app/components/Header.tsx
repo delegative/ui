@@ -14,12 +14,12 @@ const menuData = [
     path: "/",
     newTab: false,
   },
-  // {
-  //   id: 1,
-  //   title: "Proposals",
-  //   path: "/proposals",
-  //   newTab: false,
-  // },
+  {
+    id: 2,
+    title: "Proposals",
+    path: "/proposals",
+    newTab: false,
+  },
   {
     id: 3,
     title: "Delegates",

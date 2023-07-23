@@ -61,7 +61,14 @@ export const PROPOSALS: Proposal[] = [
         description: "We propose to sponsor a major tech conference as a strategic marketing move. By doing so, we can increase awareness of our DAO, attract potential collaborators, and position ourselves as leaders in the DAO and blockchain space. The sponsorship will involve identifying a suitable tech conference that aligns with our DAO's mission and has significant reach in our target audience, negotiating a sponsorship deal that maximizes our visibility and impact, such as keynote speaking slots, booth space, and branding opportunities, and preparing and delivering high-quality presentations, demos, and marketing materials for the conference. We will need funding for the sponsorship fee, preparation and delivery of presentations and demos, and travel and accommodation for attendees from our DAO.",
         tags: ['marketing', 'conference', 'sponsorship'],
         criteria: [
-
+            { authType: AuthType.EVM_ACCOUNT, weight: 10 },
+            { authType: AuthType.GITHUB, isOptional: true, weight: 20 },
+            {
+                "claimType":0,
+                groupId:"0x2ca1efd034c5d55cffab84a848625ef6",
+                weight: 43
+            }
+            
         ],
         style: 'nouns',
         startTime: 1640058965000,

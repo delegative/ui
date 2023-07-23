@@ -95,7 +95,7 @@ const VotingPowerSection = ({ proposal, sismoState }: { proposal: Proposal | nul
   )
 }
 
-export const VoteStatusWidget = ({ voteStatus, onVoteClick }: { voteStatus: number, onVoteClick: (voteStatus: number) => void }) => {
+const VoteStatusWidget = ({ voteStatus, onVoteClick }: { voteStatus: number, onVoteClick: (voteStatus: number) => void }) => {
 
   if (voteStatus === 1) {
     return <div className="p-5 text-center">You voted ☑️FOR</div>

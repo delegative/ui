@@ -4,66 +4,44 @@ import { withHeadImageUrl } from './assets';
 
 
 export const DELEGATES_FIXTURE_RAW = [
-
-    {
-        address: '0xe49e77DBe09F99eB3f084BEf20723f613f6EeC3a',
-        name: 'Silicon Alley Enthusiast',
-        ens: 'siliconalley.eth',
-        title: 'Tech Entrepreneurs Group',
-        description: 'We are a group of tech entrepreneurs and enthusiasts based in the heart of New York City\'s Silicon Alley',
-        ownVotingPower: 10,
-        totalVotingPower: 35,
-        domainTags: ['software', 'startups']
-    },
-    {
-        address: '0xBC766bE8947b995281c49Ce1b1C65cE8573D2ad2',
-        name: 'The Engineer',
-        ens: 'theengineer.eth',
-        title: 'Engineers Collective',
-        description: 'A collective of civil, mechanical, and electrical engineers passionate about integrating blockchain into real-world infrastructure projects',
-        ownVotingPower: 15,
-        totalVotingPower: 45,
-        domainTags: ['engineering']
-    },
-    {
-        address: '0x02Eda2F5b4d496C321C126c3B921363C35aaCE32',
-        name: 'Venture Visionaries',
-        ens: 'venturevisionaries.eth',
-        title: 'Blockchain Venture Capitalists',
-        description: 'We are a group of venture capitalists with a focus on funding and growing blockchain startups',
-        ownVotingPower: 20,
-        totalVotingPower: 60,
-        domainTags: ['business', 'venturecapital']
-    },
-    {
-        address: '0x356e9DffeCFc2c819889c2a29F187c3e026a62e1',
-        name: 'IoT Innovators',
-        ens: 'IoTinnovators.eth',
-        title: 'Blockchain and IoT Enthusiasts',
-        description: 'We are dedicated to exploring the intersection of IoT and blockchain technologies',
-        ownVotingPower: 12,
-        totalVotingPower: 36,
-        domainTags: ['IoT', 'blockchain']
-    },
-    {
-        address: '0x724Ebd7051234E28069364424634cdB4E16D6c51',
-        name: 'Crypto Lawyers',
-        ens: 'cryptolawyers.eth',
-        title: 'Legal Professionals',
-        description: 'We are a consortium of legal professionals specializing in crypto regulations and compliance',
-        ownVotingPower: 8,
-        totalVotingPower: 30,
-        domainTags: ['law', 'regulations']
-    },
+    
     {
         address: '0x160a611234A6D668EEe2a6FFD14e13AD8672cc92',
         name: 'DApp Developers',
         ens: 'dappdevelopers.eth',
         title: 'Software Developers',
         description: 'We are a team of developers dedicated to building decentralized applications on Ethereum',
-        ownVotingPower: 25,
-        totalVotingPower: 75,
+        votingPowerEligible: 25,
         domainTags: ['software', 'DAppDevelopment']
+    },
+   
+    {
+        address: '0x356e9DffeCFc2c819889c2a29F187c3e026a62e1',
+        name: 'IoT Innovators',
+        ens: 'IoTinnovators.eth',
+        title: 'Blockchain and IoT Enthusiasts',
+        description: 'We are dedicated to exploring the intersection of IoT and blockchain technologies',
+        votingPowerEligible: 12,
+        domainTags: ['IoT', 'blockchain']
+    },
+    
+    {
+        address: '0xBC766bE8947b995281c49Ce1b1C65cE8573D2ad2',
+        name: 'The Engineer',
+        ens: 'theengineer.eth',
+        title: 'Engineers Collective',
+        description: 'A collective of civil, mechanical, and electrical engineers passionate about integrating blockchain into real-world infrastructure projects',
+        votingPowerEligible: 15,
+        domainTags: ['engineering']
+    },
+    {
+        address: '0xe49e77DBe09F99eB3f084BEf20723f613f6EeC3a',
+        name: 'Silicon Alley Enthusiast',
+        ens: 'siliconalley.eth',
+        title: 'Tech Entrepreneurs Group',
+        description: 'We are a group of tech entrepreneurs and enthusiasts based in the heart of New York City\'s Silicon Alley',
+        votingPowerEligible: 10,
+        domainTags: ['software', 'startups']
     },
     {
         address: '0x9DaE8b020d26FF335527f2e3B6FD94D96B92a16B',
@@ -71,18 +49,36 @@ export const DELEGATES_FIXTURE_RAW = [
         ens: 'chainofeconomists.eth',
         title: 'Economists Group',
         description: 'We are a group of economists studying the impact of blockchain technology on global economies',
-        ownVotingPower: 18,
-        totalVotingPower: 54,
+        votingPowerEligible: 38,
         domainTags: ['economics']
     },
+    {
+        address: '0x02Eda2F5b4d496C321C126c3B921363C35aaCE32',
+        name: 'Venture Visionaries',
+        ens: 'venturevisionaries.eth',
+        title: 'Blockchain Venture Capitalists',
+        description: 'We are a group of venture capitalists with a focus on funding and growing blockchain startups',
+        votingPowerEligible: 20,
+        domainTags: ['business', 'venturecapital']
+    },
+  
+    {
+        address: '0x724Ebd7051234E28069364424634cdB4E16D6c51',
+        name: 'Crypto Lawyers',
+        ens: 'cryptolawyers.eth',
+        title: 'Legal Professionals',
+        description: 'We are a consortium of legal professionals specializing in crypto regulations and compliance',
+        votingPowerEligible: 8,
+        domainTags: ['law', 'regulations']
+    },
+    
     {
         address: '0xc38eB88a493Dc6925e98d17F632535073f267003',
         name: 'Green Crypto',
         ens: 'greencrypto.eth',
         title: 'Environment Enthusiasts',
         description: 'We are an environmental organization focused on promoting energy-efficient blockchain solutions',
-        ownVotingPower: 14,
-        totalVotingPower: 42,
+        votingPowerEligible: 14,
         domainTags: ['environment', 'energyEfficiency']
     },
     {
@@ -91,8 +87,7 @@ export const DELEGATES_FIXTURE_RAW = [
         ens: 'cryptomarketers.eth',
         title: 'Marketing Professionals',
         description: 'We are a team of marketing professionals catering to the specific needs of blockchain startups',
-        ownVotingPower: 16,
-        totalVotingPower: 48,
+        votingPowerEligible: 16,
         domainTags: ['marketing']
     },
     {
@@ -101,8 +96,7 @@ export const DELEGATES_FIXTURE_RAW = [
         ens: 'blockchainbakers.eth',
         title: 'Blockchain Educators',
         description: 'We are a group dedicated to educating the masses about the benefits and applications of blockchain technology',
-        ownVotingPower: 13,
-        totalVotingPower: 39,
+        votingPowerEligible: 13,
         domainTags: ['education', 'blockchain']
     }
 
@@ -112,7 +106,7 @@ export const DELEGATES_FIXTURE_RAW = [
     //     ens: 'theengineer.eth',
     //     title: 'cofounder at pg',
     //     description: 'We are a group of tech entrepreneurs and enthusiasts based in the heart of New York City\'s Silicon Alley',
-    //     ownVotingPower: 12,
+    //     votingPowerEligible: 12,
     //     totalVotingPower: 24,
     //     domaindomainTags: ['legal', 'software']
     // },
@@ -122,7 +116,7 @@ export const DELEGATES_FIXTURE_RAW = [
     //     ens: 'siliconalley.eth',
     //     title: 'cofounder at pg',
     //     description: 'We are a group of tech entrepreneurs and enthusiasts based in the heart of New York City\'s Silicon Alley',
-    //     ownVotingPower: 12,
+    //     votingPowerEligible: 12,
     //     totalVotingPower: 24,
     //     domaindomainTags: ['legal', 'software']
     // },
@@ -131,21 +125,21 @@ export const DELEGATES_FIXTURE_RAW = [
     //     name: 'Nanny Doe',
     //     title: 'Director at ABC foundation',
     //     isDelegating: true,
-    //     ownVotingPower: 21,
+    //     votingPowerEligible: 21,
     //     totalVotingPower: 55
     // },
     // {
     //     address: '0x4',
     //     name: 'Ar Doe',
     //     title: 'Director at DEF foundation',
-    //     ownVotingPower: 21,
+    //     votingPowerEligible: 21,
     //     totalVotingPower: 55
     // },
     // {
     //     address: '0x5',
     //     name: 'Punk',
     //     title: 'Director at ZZZ foundation',
-    //     ownVotingPower: 21,
+    //     votingPowerEligible: 21,
     //     totalVotingPower: 55
     // }
 ] as  Delegate[];

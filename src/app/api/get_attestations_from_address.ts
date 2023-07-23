@@ -10,7 +10,7 @@ const schemaID = process.env.SCHEMA_ID || '0xc15554c5e83e68eed9e6ff417acb1643022
 export const queryAttestationsWithAddress = async (address:string) => {
   const queryObject = {
     query:
-      "query Attestations($where: AttestationWhereInput, $orderBy: [AttestationOrderByWithRelationInput!]) {\n  attestations(where: $where, orderBy: $orderBy) {\n    attester\n    revocationTime\n    expirationTime\n    time\n    recipient\n    id\n    data\n  }\n}",
+      "query Attestations($where: AttestationWhereInput, $orderBy: [AttestationOrderByWithRelationInput!]) {\n  attestations(where: $where, orderBy: $orderBy) {\n    attester\n  revoked\n   revocationTime\n    expirationTime\n    time\n    recipient\n    id\n    data\n  }\n}",
     variables: {
       where: {
         schemaId: {
@@ -19,11 +19,6 @@ export const queryAttestationsWithAddress = async (address:string) => {
         OR: [
           {
             attester: {
-              equals: address,
-            },
-          },
-          {
-            recipient: {
               equals: address,
             },
           },

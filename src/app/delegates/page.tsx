@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect } from 'react';
-
+import _ from 'lodash';
 import DelegateCard from "../components/DelegateCard";
 import DelegateFlowWidget from "../components/DelegateFlowWidget";
 import { DELEGATES_FIXTURE } from "../delegates.fixture";
@@ -11,6 +11,7 @@ import { GoveranceContext } from '../components/GoveranceProvider';
 import { SismoContext } from '../components/SismoProvider';
 import axios from 'axios';
 import { asReadibleHex } from '../util';
+import { loadAttestationsAndBuildGraph } from '../api/off_chain_attestation_eas';
 
 
 export type Delegate = {
@@ -22,7 +23,7 @@ export type Delegate = {
     domainTags: string[];
     description?: string;
     isDelegating?: boolean;
-    ownVotingPower?: number;
+    votingPowerEligible?: number;
     totalVotingPower?: number;
 }
 
@@ -32,10 +33,12 @@ export default function Page() {
 
     const [attestations, setAttestations] = React.useState<any[]>([]);
 
+    const [delegations, setDelegations] = React.useState<any[]>([]);
+    const [votingWeightByAddress, setVotingWeightAggregatedByAddress] = React.useState<any>({});
+
     const delegates = DELEGATES_FIXTURE;
 
     const { proposal } = useContext(GoveranceContext);
-
 
     const attestationId = '0xa82c42f2bd86cc0c6443045532104bbaba84a42e59e0eb206c58f8770ceb6d5b'
 
@@ -50,6 +53,25 @@ export default function Page() {
     const { sismoState } = useContext(SismoContext);
 
     const { userId } = sismoState;
+
+    useEffect(() => {
+        const votingWeightByAddress = _.fromPairs(DELEGATES_FIXTURE.map(d => [d.address, d.votingPowerEligible || 0]));
+        loadAttestationsAndBuildGraph(votingWeightByAddress)
+            .then(({ adjList, votingWeightAggregatedByAddress }) => {
+                const delegations = _.flatMap(adjList, (delegators, key) => {
+                    return delegators.map(delegator => {
+                        return {
+                            source: delegator,
+                            target: key
+                        }
+                    })
+                })
+                console.log('delegations', delegations, votingWeightAggregatedByAddress)
+                setDelegations(delegations);
+                setVotingWeightAggregatedByAddress(votingWeightAggregatedByAddress);
+
+            })
+    }, [])
 
     useEffect(() => {
 
@@ -71,13 +93,16 @@ export default function Page() {
 
     const attestation = attestations?.[0] || {};
 
+
+    // const nodes = DELEGATES_FIXTURE.map(mapDelegateAsNode)
+
     return (
         <main className="main">
             <section className="mt-5">
                 <h3>Delegate if you don't know how to vote on this!</h3>
                 <h4>Step 1. Check current delegation flows</h4>
                 <div className="grid grid-cols-1 gap-1">
-                    <DelegateFlowWidget />
+                    {delegations.length > 0 && <DelegateFlowWidget votingWeightByAddress={votingWeightByAddress} delegates={DELEGATES_FIXTURE} delegations={delegations} />}
                 </div>
             </section>
             <section>
@@ -139,14 +164,14 @@ export default function Page() {
                         attestation: &nbsp;
                     </span>
                     <span className="inline-block">
-                        <Link target="_blank" href={`https://sepolia.easscan.org/offchain/attestation/view/${attestationId}`} >
-                            {asReadibleHex(attestationId)}
+                        <Link target="_blank" href={`https://sepolia.easscan.org/offchain/attestation/view/${attestation.id}`} >
+                            {asReadibleHex(attestation.id)}
                         </Link>
                     </span>
                 </div>
 
 
-                <Link target="_blank" href={`https://sepolia.easscan.org/offchain/attestation/view/${attestationId}`} >
+                <Link target="_blank" href={`https://sepolia.easscan.org/offchain/attestation/view/${attestation.id}`} >
                     <button className="bg-french-red">Revoke Delegation</button>
                 </Link>
 

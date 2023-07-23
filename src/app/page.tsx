@@ -16,7 +16,7 @@ import { asVotingPower } from "./voting-power";
 import { GoveranceContext } from "./components/GoveranceProvider";
 import { compareAsc, format } from 'date-fns'
 
-export const createCriterionLabel = (criterion: Criterion) => {
+const createCriterionLabel = (criterion: Criterion) => {
 
   return (
     <div className="p-2 bg-white text-black">
@@ -33,7 +33,6 @@ export const createCriterionLabel = (criterion: Criterion) => {
 
   );
 
-  return "unknown";
 
 }
 

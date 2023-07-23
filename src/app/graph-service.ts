@@ -13,5 +13,9 @@ export const queryGraphql = async (baseURL: string, queryObject: any) =>{
       }
     );
     console.log('response', response)
+    if(response.data.errors){
+      console.log('errors', response.data.errors)
+      return [];
+    }
     return response.data.data;
   }

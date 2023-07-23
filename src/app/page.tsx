@@ -15,10 +15,33 @@ import {
   ClaimType,
 } from "./sismo-connect-config";
 import { SismoContext, SismoState, SismoStatus } from "./components/SismoProvider";
-import { PROPOSALS } from "./proposal";
+import { Criterion, PROPOSALS } from "./proposal";
 import Link from "next/link";
 import { asVotingPower } from "./voting-power";
 import { GoveranceContext } from "./components/GoveranceProvider";
+import { compareAsc, format } from 'date-fns'
+
+export const createCriterionLabel = (criterion: Criterion) => {
+
+  return (
+    <div className="p-2 bg-white text-black">
+      <span className="inline-block">
+        {
+          criterion.authType ? AuthType[criterion.authType] : ClaimType[criterion.claimType!]
+        }
+      </span>
+      &nbsp;
+      <span className="inline-block">
+        🎫+{criterion.weight}
+      </span>
+    </div>
+
+  );
+
+  return "unknown";
+
+}
+
 
 export default function Home() {
 
@@ -40,6 +63,8 @@ export default function Home() {
     console.log('votingPower', votingPower);
   }, [sismoState?.status, proposal?.id])
 
+  const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss'
+
   return (
 
     <>
@@ -50,8 +75,7 @@ export default function Home() {
             <h3>🗳️Proposal: {proposal?.title}</h3>
             <h4>🛈 You can either vote with privacy 🤫, or delegate to domain expert  </h4>
 
-            <h4>Start Period:  {proposal?.starTime} </h4>
-            <h4>End Period:  {proposal?.endTime}  </h4>
+            <h4>Period: {format(proposal?.startTime!, DATE_FORMAT)} -  {format(proposal?.endTime!, DATE_FORMAT)}  </h4>
           </section>
 
 
@@ -60,23 +84,40 @@ export default function Home() {
           For: 12
           Against: 11
 
-
           <section>
 
             <div>
-              Step1: Are you Eligible to vote?
-              Connect Sismo and we will check privately 🤫
+              Step1: How much voting power you have?
+              🛈 Connect Sismo and we will check privately 🤫
             </div>
+            <h4>
+              📊 voting weight breakdown
+            </h4>
+            <ul>
+              {
+                proposal?.criteria.map(
+                  criterion => {
+                    return (
+                      <li className="w-full border-neutral-100 border-opacity-100 py-1 dark:border-opacity-50">
+                        {createCriterionLabel(criterion)}
+                      </li>
+                    )
+                  }
+                )
+              }
+            </ul>
 
+
+            {/* 
             <div>
               <h4>This proposal requires you to have these..</h4>
 
 
-            </div>
+            </div> */}
             {
               sismoState?.status !== SismoStatus.Init && (
                 <div>
-                  zk Badges Generated
+                  zk Badges Generated. No Worries we'll keep that secret! &nbsp;
                   <button
                     className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                     type="button"

@@ -75,7 +75,7 @@ console.log('nodes', nodes, delegations)
 
 export const DelegateFlowWidget = () => {
     return (
-        <div className="h-5/6 min-h-screen w-screen">
+        <div className="h-5/6 min-h-screen w-100">
             <ReactFlow fitView nodes={nodes} defaultEdges={edges} connectionLineStyle={connectionLineStyle}>
                 <Background />
 

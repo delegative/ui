@@ -90,7 +90,7 @@ const Header = () => {
                   } `}
               >
                 <Image
-                  src="/delegative_logo.png"
+                  src="/delegative_logo_rec.png"
                   alt="logo"
                   width={140}
                   height={30}

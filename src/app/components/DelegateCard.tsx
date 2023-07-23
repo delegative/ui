@@ -6,7 +6,7 @@ import Image from "next/image";
 import { asReadibleHex } from '../util';
 import { PROPOSALS } from '../proposal';
 
-export const DelegateCard = ({ delegate, onDelegateClick, style = 'human' }: { delegate: Delegate, onDelegateClick: (address: string) => void, style: string }) => {
+export const DelegateCard = ({ delegate, onDelegateClick, style = 'human' }: { delegate: Delegate, onDelegateClick: (address: string) => void, style?: string }) => {
 
     const { name, title, description, ens, address, isDelegating, domainTags = [] } = delegate;
 
@@ -56,7 +56,6 @@ export const DelegateCard = ({ delegate, onDelegateClick, style = 'human' }: { d
                                         />
                                     </span>
                                 )}
-
 
                                 <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700">#{domainTag}</span>
                             </>

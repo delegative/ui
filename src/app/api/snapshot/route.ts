@@ -26,10 +26,11 @@ const baseURL = `https://gateway.thegraph.com/api/${THE_GRAPH_API_KEY}/subgraphs
       variables: null
     }
     
-  const res =  await queryGraphql(baseURL, queryObject);
+    const res =  await queryGraphql(baseURL, queryObject);
 
+    console.log('res', res)
 
-    return NextResponse.json({a:1}, { status: 200 });
+    return NextResponse.json(res, { status: 200 });
     
 
   }

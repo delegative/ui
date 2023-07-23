@@ -1,5 +1,6 @@
 import { AuthType, SismoConnectProof } from "@sismo-core/sismo-connect-react";
 import { SismoConnectResponse, SismoConnectVerifiedResult } from "@sismo-core/sismo-connect-server";
+import { getAddress } from "ethers";
 import { createContext, useState } from "react";
 // import { SismoState } from "../page";
 
@@ -49,7 +50,9 @@ export const verify = async (response: SismoConnectResponse) => {
     }
 }
 
+// note this addres is not checksumed
 export const findAuthUserId = (proofs: SismoConnectProof[]) => {
+
     let userId = '';
     proofs.forEach((proof) => {
         (proof.auths || []).forEach((auth) => {
@@ -60,7 +63,7 @@ export const findAuthUserId = (proofs: SismoConnectProof[]) => {
         });
     });
 
-    return userId;
+    return getAddress(userId);
 
 }
 

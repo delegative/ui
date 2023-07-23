@@ -44,8 +44,6 @@ export const SismoConnectWidget = () => {
 
     if (sismoState.status === SismoStatus.Verifying) {
 
-        // const userId = findAuthUserId(sismoState.response?.proofs || []) || '';
-
         const { userId } = sismoState;
 
         return (
